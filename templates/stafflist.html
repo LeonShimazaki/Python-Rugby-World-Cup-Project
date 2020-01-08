@@ -1,0 +1,44 @@
+<!-- Loan a device form -->
+<!DOCTYPE html>
+{% extends "navbar.html" %}
+
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+<body>
+
+<div class="container mt-4">
+  <h2>Epic Devices</h2>
+
+<h4>Staff List</h4>
+  <table class="table mt-4">
+	<tbody>
+        <thead>
+            <tr>
+                <th>Staff ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Location</th>
+                <th>More</th>
+            </tr>
+        </thead>
+        {% for staff in staffList %}
+            <tr>
+                <td> {{staff[0]}} </td>
+				<td> {{staff[1]}} </td>
+				<td> {{staff[2]}} </td>
+                <td> {{staff[3]}} </td>
+                <td> {{staff[4]}} </td>
+				<td> <a href="/staffmem?SID={{staff[0]}}">Select</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+   </table>
+</div>
+
+</body>
+</html>
+{% endblock %}

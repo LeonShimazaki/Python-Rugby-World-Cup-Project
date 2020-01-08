@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% extends "navbar.html" %}
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+    
+<body>
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+</style>
+
+<div class="container mt-3">
+            <!-- error notification -->
+                {% if no_id %}
+                    <div class="alert alert-danger">
+                        {{ no_id }}
+                    </div>
+                {% endif %}                       
+            <!-- success notification -->
+                {% if successmsg %}
+                    <div class="alert alert-success">
+                        {{ successmsg }}
+                        <table class="container border=1">
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Device Name</th>                    
+                        </tr>
+                        {% for ID in showID %}
+                        <tr>
+                            <td> {{ ID[0] }}</td>
+                            <td> {{ ID[1] }}</td>                          
+                        </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                {% elif on_loan %}
+                    <div class="alert alert-danger">
+                        {{ on_loan }}
+                        <table class="container border=1">
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Device Name</th>                    
+                        </tr>
+                        {% for ID in showID %}
+                        <tr>
+                            <td> {{ ID[0] }}</td>
+                            <td> {{ ID[1] }}</td>                          
+                        </tr>
+                        {% endfor %}
+                        </table>
+                    </div>  
+                {% endif %}                     
+        <!-- User form -->
+
+<form action="" method="POST">
+  <div class="container">
+    <h1>Remove Device Form</h1>
+    <p>Choose a device to remove.</p>
+    <hr>
+    <div class="form-group">
+        <label for="device_ID">Device ID</label>
+			<select name = "device_ID" class="form-control" id="device_ID">
+				<option value = "">All Selection</option>
+						{% for div in deviceDets %}
+				<option name="device_ID" id="device_ID" value = "{{ div[0] }}">{{ div[0] }} - {{ div[1] }}</option>						
+						{% endfor %}
+			</select>	
+    </div>
+           
+<input type="button" onclick="deviceName()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Submit">	
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Please confirm:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you SURE you want to remove this device? 
+        <p></p>
+        <div id="showID"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-block mt-2" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary btn-block" type="submit">Remove Device</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</form>
+
+<a href="http://127.0.0.1:5000/"> Back to Home</a>
+
+ </div>
+<script>
+    var devices = [];
+    {% for dev in deviceDets %}
+    devices.push({ id: '{{dev[0]}}', name: '{{dev[1]}}'});
+    {% endfor %}
+    
+    function deviceName() {
+        var devID = document.getElementById("device_ID").value;
+        if (!devID || "0" == devID){
+            document.getElementById("showID").innerHTML = "Please enter a device ID.";
+        }
+        else {
+            compareID = devices.find(dev => dev.id === devID);
+            document.getElementById("showID").innerHTML = "ID: " + compareID.id + " Name: " + compareID.name;
+        }
+    }
+</script>
+</body>
+
+</html>{% endblock %}

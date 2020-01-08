@@ -1,0 +1,171 @@
+
+{% extends "navbar.html" %}
+
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th{
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: #8B0000;
+}
+
+.btn{
+  colour: #008000;
+}
+</style>
+<body>
+<div class="container">
+<div class="w3-twothird">
+<h2 class="container">
+  <h2>Chosen Device</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <td>{{dev[0][0]}}</td>
+  </tr>
+  <tr>
+    <th>Name</th>
+    <td>{{dev[0][1]}}</td>
+  </tr>
+  <tr>
+    <th>Type</th>
+    <td>{{dev[0][2]}}</td>
+  </tr>
+  <tr>
+    <th>OS</th>
+    <td>{{dev[0][3]}}</td>
+  </tr>
+  <tr>
+    <th>OS</th>
+    <td><i class="material-icons">phone_iphone</i></td>
+  </tr>
+  
+  <tr>
+    <th>OS Ver</th>
+    <td>{{dev[0][4]}}</td>
+  </tr>
+  <tr>
+    <th>Ram</th>
+    <td>{{dev[0][5]}}</td>
+  </tr>
+  <tr>
+    <th>CPU</th>
+    <td>{{dev[0][6]}}</td>
+  </tr>
+  <tr>
+    <th>Bit</th>
+    <td>{{dev[0][7]}}</td>
+  </tr>
+  <tr>
+    <th>Res</th>
+    <td>{{dev[0][8]}}</td>
+  </tr>
+  <tr>
+    <th>Grade</th>
+    <td>{{dev[0][9]}}</td>
+  </tr>
+  <tr>
+    <th>UUID</th>
+    <td>{{dev[0][10]}}</td>
+  </tr>
+  <tr>
+  	{% if status == "A" %}
+    <th>Loan to:</th>
+
+		<td class = "alert alert-success" class ="/devspec?ID={{dev[0]}}">{{ staff[0][0] }} </td>
+		
+	{% elif status == "PH" %}
+    <th>Hold For:</th>	
+		<td class = "alert alert-danger" class="/devspec?ID={{dev[0]}}">{{ staff[0][0] }}</td>
+	{% else %}
+	    <th>Returned By:</th>	
+		<td class = "alert alert-danger" class="/devspec?ID={{dev[0]}}">{{ staff[0][0] }}</td>	
+	{% endif %}
+  </tr>
+  {% if status == "A" %}
+  <tr>
+    <th>Loan Date:</th>
+    <td>{{ date_now }}, {{ time }}</td>
+  </tr>
+    <tr>
+    <form class="container" method="post" action="">
+    <th> Return Date:</th>
+    <td><input type="text" value = "{{ date_return }}, {{ time }}" name="return_date">
+    <input type="submit" value="Modify Return Date" name="user" class="btn btn-success btn-lg btn-block" href="/confirm?"></input>
+    </td>
+    </form>
+  </tr>
+  {% endif %}
+
+ {% for loan in showLoan %}
+	{% if status == "PH" %} 
+  <tr>
+    <th>Current User:</th>
+ 	{% if loan[3] > loan[4] %}
+		<td class = "alert alert-success">{{loan[0]}}</td>
+		{% elif status == "PH"  %}
+			<td class = "alert alert-danger">{{loan[0]}}</td>
+	{% endif %}		
+	{% endif %}
+  </tr>
+  <tr>
+  	{% if loan[3] > loan[4] and status == "PH" %}
+    <th>Return Date</th>
+		<td class = "alert alert-success">{{loan[2]}}</td>
+	{% elif status == "PH"  %}
+		<th>Return Date</th>
+			<td class = "alert alert-danger">{{loan[2]}}</td>
+
+			
+	{% endif %}
+  </tr>
+  {% endfor %}
+  {% for hold in showHold %}
+  	<tr>
+  		<th>Hold Placed By:</th>
+   		<td class = "alert alert-success">{{hold[3]}}</td>
+
+  		<th>On:</th>
+   		<td class = "alert alert-success">{{hold[2]}}</td>
+   	</tr>	  	
+  {% endfor %} 		
+
+  <tr>
+    <td>
+	{% if status == "A" %}
+
+	<div class="col">
+	  <a href="/staffmem?DID={{dev[0][0]}}&SID={{ staff[0][1] }}&ST=L&T={{ date_return }}" style ="background-color: #008000" class="btn btn-info mt-4 mb-4" role="button">Confirm Borrow</a>
+	</div>
+	{% elif status == "PH" %}
+	<div class="col">
+	  <a href="/staffmem?DID={{dev[0][0]}}&SID={{ staff[0][1] }}&ST=H" style ="background-color: #008000" class="btn btn-info mt-4 mb-4"  role="button">Confirm Hold</a>
+	{% else  %}
+	<div class="col">
+	  <a href="/staffmem?DID={{dev[0][0]}}&SID={{ staff[0][1] }}&ST=R" style ="background-color: #008000" class="btn btn-info mt-4 mb-4"  role="button">Confirm Return</a>
+	{% endif %}	
+	</td>
+  </tr>
+</table>
+</div>
+</body>
+</html>
+
+{% endblock %}

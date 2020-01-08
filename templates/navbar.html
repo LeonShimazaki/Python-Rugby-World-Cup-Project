@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>
+        Project 1
+    </title>
+    <title>Bootstrap</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<nav class="navbar navbar-expand-lg bg-success navbar-success" style ="background-color: #3399FF;">
+  <a class="navbar-brand strong" >Epic Devices</a>
+  <i class="fas fa-cloud"></i>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="/">Home/Devices<span class="sr-only">(current)</span></a>
+      </li>
+ <i class="fa fa-binocular"></i>		
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/stafflist">Staff List</a>
+      </li>
+{% if manager %}
+ <i class="fa fa-male"></i>	  
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/newdevice">Add Device</a>
+      </li>
+{% endif %}
+{% if manager %}
+   <i class="fa fa-desktop"></i>	      						
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/newstaff">Add User</a>
+      </li>
+{% endif %}     
+<!-- 
+   <i class="fa fa-female"></i>		  
+	  <li class="nav-item">
+        <a class="nav-link" href="/loan">Loan Device</a>
+      </li>
+	<i class="fa fa-calendar"></i>  
+	  <li class="nav-item">
+        <a class="nav-link" href="/returnloan">Return Device</a>
+      </li>
+ -->
+ {% if manager %}
+	<i class="fa fa-calendar"></i>  
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/removedevice">Remove Device</a>
+      </li>
+  <i class="fa fa-calendar"></i>  
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/removestaff">Remove Staff</a>
+      </li>
+      <i class="fa fa-calendar"></i>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/editdevice">Edit Device</a>
+      </li>
+ {% endif %}     
+ <!-- 
+   <i class="fa fa-male"></i>    
+      <li class="nav-item">
+        <a class="nav-link" href="/holddevice">Hold Device</a>
+ -->
+      </li>
+	  
+      			{% if name %}
+      <li class="nav-item"><left>
+        <a class="nav-link justify-content-end" href="#"><left>Welcome {{ name }}</left></a>
+      </left></li>
+      			{% endif %}
+    </ul>
+  </div>
+</nav>
+{% block content %} {% endblock %}
+    <!-- Optional JavaScript -->
+    <!-- Many Bootstrap components require the use of JavaScript to function. -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

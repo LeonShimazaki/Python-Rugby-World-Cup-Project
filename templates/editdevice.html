@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+{% extends "navbar.html" %}
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+    
+<body>
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+<!-- form colum dividing -->
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+
+<div class="container mt-5 mt-6">
+            <!-- error notification -->
+                {% for error1 in error %}
+                    <div class="alert alert-danger">
+                        {{ error1 }}
+                    </div>
+                {% endfor %}         
+            <!-- success notification -->
+                {% if success %}
+                    <div class="alert alert-success">
+                        {{ success }}
+                        <table class="container border=1">
+                        <tr>
+                            <th>Device ID</th>
+                            <th>Device Name</th>
+                            <th>Device Type</th>
+                            <th>Device OS</th>
+                            <th>OS Version</th>
+                            <th>Device RAM</th>
+                            <th>Device CPU</th>
+                            <th>Device Bit</th>
+                            <th>Device Resolution</th>
+                            <th>Device Grade</th>
+                            <th>Device UUID</th>     
+                            <th>Device</th>
+                            <th>Device Cost</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for ID in showID %}
+                        <tr>
+                            <td> {{ ID[0] }}</td>
+                            <td> {{ ID[1] }}</td>
+                            <td> {{ ID[2] }}</td>
+                            <td> {{ ID[3] }}</td>
+                             <td> {{ ID[4] }}</td>
+                            <td> {{ ID[5] }}</td>
+                            <td> {{ ID[6] }}</td>
+                            <td> {{ ID[7] }}</td>
+                             <td> {{ ID[8] }}</td>
+                            <td> {{ ID[9] }}</td>
+                            <td> {{ ID[10] }}</td>   
+                            <td> {{ ID[11] }}</td>   
+                            <td> ${{ ID[12] }}</td>
+                            <td> {{ ID[13] }}</td>                            
+                        </tr>
+                        {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+        <!-- User form -->
+
+<form action="" method="POST" id="editDevice">
+  <div class="container">
+    <h1>Edit Device</h1>
+    <p>Please edit device details here</p>
+    <hr>
+	<div class="row ml-4 mr-4">
+    <div class="form-group column">
+        <div class="select-div">
+        <label for="device_ID">Device ID</label>
+			<select name = "device_ID" class="form-control" id="device_ID">
+				<option value = "">No Selection</option>
+						{% for dev in deviceDets %}
+				<option name="device_ID" id="dev_ID" value = "{{ dev[0] }}">{{ dev[0] }} - {{ dev[1] }}</option>                
+						{% endfor %}
+			</select>	
+        </div>
+    </div>
+	<div class="form-group column">
+        <label for="device_name">Device Name</label>
+        <input type="text" id="device_name" name="device_name" placeholder = "e.g. JohnDory">
+    </div>
+	<div class="form-group column">
+        <label for="device_type">Device Type</label>
+        <input type="text" id="device_type" name="device_type" placeholder = "e.g. Iphone X">
+    </div>
+	<div class="form-group column">
+        <label for="device_os">Device OS</label>
+        <input type="text" id="device_os" name="device_os" placeholder = "e.g. IOS">
+    </div>
+    <div class="form-group column">
+	<label for="device" >Device**</label>
+		 <select name="device" id="device">
+		 	<option value = "" selected>No Selection</option>
+			<option value = "Phone" >Phone</option>
+			<option value = "Laptop">Laptop</option>
+			<option value = "Tablet">Tablet</option>
+			<option value = "Music">Music player</option>		
+			<option value = "VR">VR Headset</option>				
+		 </select>		
+    </div>
+	<div class="form-group column">
+        <label for="os_version">OS Version</label>
+        <input type="text" id="os_version" name="os_version" placeholder = "e.g. 8.4.1">
+    </div>
+    <div class="form-group column">
+        <label for="device_ram">Device RAM</label>
+        <input type="text" id="device_ram" name="device_ram" placeholder = "e.g. 500 MB">
+    </div>
+    <div class="form-group column">
+        <label for="device_cpu">Device CPU</label>
+        <input type="text" id="device_cpu" name="device_cpu" placeholder = "e.g. Dual-Core 1GHz">
+    </div>
+    <div class="fform-group column">
+        <label for="device_bit">Device Bit</label>
+        <input type="text" id="device_bit" name="device_bit" placeholder = "e.g. 32">
+    </div>
+    <div class="form-group column">
+        <label for="device_resolution">Device Resolution</label>
+        <input type="text" id="device_resolution" name="device_resolution" placeholder = "e.g. 640 x 1136 (326ppi)">
+    </div>
+    <div class="form-group column">
+        <label for="device_grade">Device Grade</label>
+        <input type="text" id="device_grade" name="device_grade" placeholder = "e.g. Obsolete">
+    </div>
+    <div class="form-group column">
+        <label for="device_uuid">Device UUID</label>
+        <input type="text" id="device_uuid" name="device_uuid"  placeholder = "e.g. ba9ff54ef1d18b27feb179271c49f90a6d813531">
+    </div>
+    <div class="form-group column">
+        <label for="device_cost">Device Cost</label>
+        <input type="text" id="device_cost" name="device_cost" placeholder = "e.g. 1000">
+    </div>
+    <div class="form-group column">
+	<label for="device_active" >Device Status</label>
+		 <select name="device_active" id="device_active">
+		 	<option value = "" selected>No Selection</option>
+			<option value = "yes" >Active (yes)</option>
+			<option value = "no">Inactive (no)</option>		
+		 </select>		
+    </div>
+    <hr>
+    <input style ="background-color: #3398FF" type="submit" value="Update Device" >
+   </div>
+   </div>
+ 
+</form>
+<a href="http://127.0.0.1:5000/"> Back to Home</a>
+
+ </div>
+
+<script>
+    var devices = [];
+    {% for dev in deviceDets %}
+    devices.push({ id: '{{dev[0]}}', name: '{{dev[1]}}', type: '{{dev[2]}}', OS: '{{dev[3]}}', device: '{{dev[11]}}', OSvers: '{{dev[4]}}', ram: '{{dev[5]}}', cpu: '{{dev[6]}}', bit: '{{dev[7]}}', resolution: '{{dev[8]}}', grade: '{{dev[9]}}', uuid: '{{dev[10]}}', cost: '{{dev[12]}}', active: '{{dev[13]}}' });
+    {% endfor %}
+    
+    $(function () {
+        $('.select-div').on('change', 'select', function (e) {//use on to delegate
+            var devID = $(e.target).val(), t = $(e.target).find(':selected').text(), p = $(e.target).closest('.select-div');
+            console.log(devID);
+            console.log(t);
+            console.log(p);
+            if (devID) {
+                compareID = devices.find(dev => dev.id === devID);
+                for (var x = 0; x < Object.keys(compareID).length; x++) {
+                    if (Object.values(compareID)[x] === 'None') {
+                        compareID[Object.keys(compareID)[x]] = '';
+                    }
+                }
+                $("#device_name").val(compareID.name);
+                $("#device_type").val(compareID.type);
+                $("#device_os").val(compareID.OS);
+                $("#device").val(compareID.device).change();
+                $("#os_version").val(compareID.OSvers);
+                $("#device_ram").val(compareID.ram);
+                $("#device_cpu").val(compareID.cpu);
+                $("#device_bit").val(compareID.bit);
+                $("#device_resolution").val(compareID.resolution);
+                $("#device_grade").val(compareID.grade);
+                $("#device_uuid").val(compareID.uuid);
+                $("#device_cost").val(compareID.cost);
+                $("#device_active").val(compareID.active);
+            }
+        });
+    });
+</script>
+</body>
+
+</html>{% endblock %}
+

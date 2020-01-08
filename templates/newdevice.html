@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% extends "navbar.html" %}
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+    
+
+<!-- Box shape for type=text -->
+<style>
+input[type = text], input[type = text1], input[type=text2],input[type=text4], input[type=text5], input[type=text6],
+ input[type=text7], input[type=text8], input[type=text9], input[type=text10], input[type=text11], select
+ {
+width: 100%;
+padding: 12px 20px;
+margin: 8px 0;
+display: inline-block;
+border: 1px solid #ccc;
+border-radius: 4px;
+box-sizing: border-box;
+}
+</style>
+<!-- Button display same for submit and reset -->
+<style>
+input[type=submit], input[type = reset], input[type=button] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+</style>
+<style>
+<!-- form colum dividing -->
+* {
+  box-sizing: border-box;
+}
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+
+<!-- Function load when needed -->
+<body onload="load()">
+<div class="container mt-3">
+
+<!-- error notification -->
+{% for error1 in error %}
+	<div class="alert alert-danger">
+		{{ error1 }}
+	</div>
+{% endfor %}   
+
+<!-- success notification -->
+{% if success %}
+	<div class="alert alert-success">
+		{{ success }}
+		<table class="container border=1">
+		<tr>
+			<th>Device ID</th>
+			<th>Device Name</th>
+			<th>Device Type</th>
+			<th>Device Os</th>
+			<th>Device</th>							
+			<th>Os Version</th>
+			<th>Device RAM</th>
+			<th>Device CPU</th>
+			<th>Device Bit</th>
+			<th>Device Resolution</th>
+			<th>Device Grade</th>
+			<th>Device UUID</th>
+			<th>Device Cost</th>  							
+		</tr>
+		{% for ID in showID %}
+		<tr>
+			<td> {{ ID[0] }}</td>
+			<td> {{ ID[1] }}</td>
+			<td> {{ ID[2] }}</td>
+			<td> {{ ID[3] }}</td>
+			<td> {{ ID[4] }}</td>
+			<td> {{ ID[5] }}</td>
+			<td> {{ ID[6] }}</td>
+			<td> {{ ID[7] }}</td>
+			<td> {{ ID[8] }}</td>
+			<td> {{ ID[9] }}</td>
+			<td> {{ ID[10] }}</td> 
+			<td> {{ ID[11] }}</td>  	
+			<td> ${{ ID[12] }}</td>  							
+		</tr>
+		{% endfor %}
+		</table>
+	</div>
+{% endif %}
+
+<!-- User form -->
+<form action="" method="POST">
+  <div class="container">
+    <h1>Add New Device Form</h1>
+    <p>Please fill in this form to add a new device.</p>
+	<p>** minimum fields required.</p>
+    <hr>
+<!-- Reset Button -->
+	<input style ="background-color: #ff3333" type= "reset" onclick="deleteItems() id ="button" value="Reset"/>
+<!-- Form -->
+	<div class="row">
+		<!-- Name -->
+		<div class="form-group column";>
+			<label for="device_name">Device Name**</label>                
+			{% if error %}
+			<input class="alert alert-danger" type="text" id="device_name" name="DeviceName" placeholder = "e.g. JohnDory" />
+			{% else  %}
+			<input type="text" id="device_name" name="DeviceName" placeholder = "e.g. JohnDory" />
+			{% endif %} 
+		</div>
+		<!-- Type -->
+		<div class="form-group column";>
+			<label for="devicetype">Device Type**</label>
+			{% if error %}
+			<input class="alert alert-danger" type="text1" id="device_type" name="DeviceType" placeholder = "e.g. Iphone X">
+			{% else  %}
+			<input type="text1" id="device_type" name="DeviceType" placeholder = "e.g. Iphone X">
+			{% endif %} 
+		</div>
+		<!-- OS -->
+		<div class="form-group column";>
+			<label for="deviceos">Device OS**</label>
+			{% if error %}
+			<input class="alert alert-danger" type="text2" id="device_os" name="DeviceOS" placeholder = "e.g. IOS">
+			{% else  %}
+			<input type="text2" id="device_os" name="DeviceOS" placeholder = "e.g. Android">		
+			{% endif %} 
+		</div>
+		<!-- Device Symbol -->
+		<div class="form-group column";>
+		<label for="Device" >Device**</label>
+			{% if error %}
+			 <select class="alert alert-danger" name = "Device">
+				<option value = "" selected>No Selection</option>
+				<option value = "Phone" >Phone</option>
+				<option value = "Laptop">Laptop</option>
+				<option value = "Tablet">Tablet</option>
+				<option value = "VRheadset">VR Headset</option>		
+			 </select>	
+			{% else  %}
+			 <select name = "Device" >
+				<option value = "" selected>No Selection</option>
+				<option value = "Phone" >Phone</option>
+				<option value = "Laptop">Laptop</option>
+				<option value = "Tablet">Tablet</option>
+				<option value = "Music">Music player</option>		
+				<option value = "VR">VR Headset</option>				
+			 </select>		
+			{% endif %} 
+		</div>
+		<!-- OS Ver -->
+		<div class="form-group column";>
+			<label for="OSversion">OS Version</label>
+			<input type="text4" id="os_version" name="OSVersion" placeholder = "e.g. 8.4.1">
+		</div>
+		<div class="form-group column">
+			<label for="deviceram">Device RAM</label>
+			<input type="text5" id="device_ram" name="DeviceRam" placeholder = "e.g. 500 MB">
+		</div>
+		<div class="form-group column">
+			<label for="deviceCPU">Device CPU</label>
+			<input type="text6" id="device_cpu" name="DeviceCPU" placeholder = "e.g. Dual-Core 1GHz">
+		</div>
+		<div class="fform-group column">
+			<label for="deviceBit">Device Bit</label>
+			<input type="text7" id="device_bit" name="DeviceBit" placeholder = "e.g. 32">
+		</div>
+		<div class="form-group column">
+			<label for="deviceresolution">Device Resolution</label>
+			<input type="text8" id="device_resolution" name="DeviceResolution" placeholder = "e.g. 640 x 1136 (326ppi)">
+		</div>
+		<div class="form-group column">
+			<label for="devicegrade">Device Grade</label>
+			<input type="text9" id="device_grade" name="DeviceGrade" placeholder = "e.g. Obsolete">
+		</div>
+		<div class="form-group column">
+			<label for="deviceuuid">Device UUID</label>
+			<input type="text10" id="device_uuID" name="DeviceUUID" placeholder = "e.g. ba9ff54ef1d18b27feb179271c49f90a6d813531">
+		</div>
+		<div class="form-group column">
+			<label for="devicecost">Device Cost</label>
+			<input type="text11" id="device_cost" name="DeviceCost" placeholder = "e.g. 1000">
+		</div>
+    </hr>
+<!-- Success Button -->
+<input style ="background-color: #3398FF" type="submit" id ="button" value="save" onclick="save()"/>
+
+<!-- Function to save form rows -->
+ <script>
+	function save()	{
+		var fieldValue = document.getElementById('device_name').value;
+		localStorage.setItem('text',fieldValue);
+		var fieldValue = document.getElementById('device_type').value;
+		localStorage.setItem('text1',fieldValue);
+		var fieldValue = document.getElementById('device_os').value;
+		localStorage.setItem('text2',fieldValue);
+		var fieldValue = document.getElementById('os_version').value;
+		localStorage.setItem('text4',fieldValue);
+		var fieldValue = document.getElementById('device_ram').value;
+		localStorage.setItem('text5',fieldValue);
+		var fieldValue = document.getElementById('device_cpu').value;
+		localStorage.setItem('text6',fieldValue);
+		var fieldValue = document.getElementById('device_type').value;
+		localStorage.setItem('text7',fieldValue);
+		var fieldValue = document.getElementById('device_bit').value;
+		localStorage.setItem('text8',fieldValue);
+		var fieldValue = document.getElementById('device_resolution').value;
+		localStorage.setItem('text9',fieldValue);
+		var fieldValue = document.getElementById('device_grade').value;
+		localStorage.setItem('text10',fieldValue);
+		var fieldValue = document.getElementById('device_uuID').value;
+		localStorage.setItem('text11',fieldValue);
+		var fieldValue = document.getElementById('device_uuID').value;
+		localStorage.setItem('text11',fieldValue);
+		var fieldValue = document.getElementById('device_cost').value;
+		localStorage.setItem('text12',fieldValue);
+	}
+</script>
+
+<!-- Function to Load form rows if there is an error -->
+{% if count > 0 %}
+{% if error %}
+<script>	
+	function load()	{
+		var storedValue = localStorage.getItem('text');
+		if (storedValue)	{
+			document.getElementById('device_name').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text1');
+		if (storedValue)	{
+			document.getElementById('device_type').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text2');
+		if (storedValue)	{
+			document.getElementById('device_os').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text4');
+		if (storedValue)	{
+			document.getElementById('os_version').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text5');
+		if (storedValue)	{
+			document.getElementById('device_ram').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text6');
+		if (storedValue)	{
+			document.getElementById('device_cpu').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text7');
+		if (storedValue)	{
+			document.getElementById('device_type').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text8');
+		if (storedValue)	{
+			document.getElementById('device_bit').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text9');
+		if (storedValue)	{
+			document.getElementById('device_resolution').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text10');
+		if (storedValue)	{
+			document.getElementById('device_grade').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text11');
+		if (storedValue)	{
+			document.getElementById('device_uuID').value = storedValue;
+		}
+		var storedValue = localStorage.getItem('text12');
+		if (storedValue)	{
+			document.getElementById('device_cost').value = storedValue;
+		}
+	}
+</script>
+{% endif %}
+{% endif %}
+
+<!-- Function to delete form rows after success -->
+{% if success %}
+<script>
+function deleteItems() {
+	  localStorage.clear();
+	  }
+	  document.getElementById("demo").innerHTML = deleteItems();  
+</script>
+{% endif %}
+</form>
+<a href="http://127.0.0.1:5000/"> Back to Home</a>
+ </div>
+ </div>
+ </div>
+{% endblock %}
+</body>
+</html>
+

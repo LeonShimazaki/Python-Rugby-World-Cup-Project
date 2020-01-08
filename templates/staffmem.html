@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+{% extends "navbar.html" %}
+
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th{
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  color: #8B0000;
+}
+</style>
+<body>
+<div class="container">
+<div class="w3-twothird">
+<h2 class="container">
+  <h2>Staff Member</h2>
+<div class="modal-footer">  
+         <a href="/?" class="btn btn-info" role="button">Hold/Borrow/Return Device</a>   
+        
+</div>  
+<table>
+  <tr>
+    <th>ID</th>
+    <td>{{staff[0][0]}}</td>
+  </tr>
+  <tr>
+    <th>First Name</th>
+    <td>{{staff[0][1]}}</td>
+  </tr>
+  <tr>
+    <th>Last Name</th>
+    <td>{{staff[0][2]}}</td>
+  </tr>
+  <tr>
+    <th>Location</th>
+    <td>{{staff[0][3]}}</td>
+  </tr>
+  <tr>
+    <th>Email</th>
+    <td>{{staff[0][4]}}</td>
+  </tr>
+  <tr>
+    <th>Role</th>
+    <td>{{staff[0][5]}}</td>
+  </tr>
+		
+</table>
+                {% if success %}
+					<div class="alert alert-success">
+						{{ success }}
+					</div>
+				{% endif %}
+  				{% if error %}
+					<div class="alert alert-danger">
+						{{ error }}
+					</div>
+				{% else %}		
+<h2>{{staff[0][1]}}'s Loan Devices...</h2> 
+<div class = "container">
+
+    <table class = "table table-striped">
+        <thead>
+            <tr id="myTable">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>OS</th>
+                <th>Due Date</th>
+            </tr>
+        </thead>
+      {% for dev in device %}
+      <tbody id="devInfo">       			
+        <tr>
+            <td> {{dev[0]}} </td>
+            <td> {{dev[1]}} </td>
+            <td> {{dev[2]}} </td>
+            <td> {{dev[3]}} </td>
+            <td> {{dev[4]}} </td>
+            <td> {{dev[5]}} </td>
+            <td><a class = "alert alert-danger" href="/staffmem?DID={{dev[0]}}&SID={{staff[0][0]}}&ST=R">Return</td>
+        </tr>
+    </tbody>
+            {% endfor %}
+   </table>
+</div>
+					{% if no_loan %}
+					<div class="alert alert-danger">
+						{{ no_loan }}
+					</div>
+					{% endif %}
+                    {% if no_hold %}
+					<div class="alert alert-danger">
+						{{ no_hold }}
+					</div>
+                    {% else %}
+<h2>{{staff[0][1]}}'s Held Devices...</h2> 
+<div class = "container">
+
+    <table class = "table table-striped">
+        <thead>
+            <tr id="myTable">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>OS</th>
+                <th>Held Since</th>
+                
+            </tr>
+        </thead>
+      {% for hel in held %}
+      <tbody id="devInfo">       			
+        <tr>
+            <td> {{hel[0]}} </td>
+            <td> {{hel[1]}} </td>
+            <td> {{hel[2]}} </td>
+            <td> {{hel[3]}} </td>
+            <td> {{hel[4]}} </td>
+            <td> {{hel[5]}} </td>
+            <td><a class = "alert alert-danger" href="/staffmem?DID={{hel[0]}}&SID={{staff[0][0]}}&ST=CH">Cancel</td>
+        </tr>
+    </tbody>
+            {% endfor %}
+					{% endif %}            
+            {% endif %}
+   </table>
+</div>
+<!--
+<script>
+    $(document).ready(function(){
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#devInfo tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+
+        $('td:nth-child(n+5),th:nth-child(n+5)').hide();
+        $('td:nth-child(12),th:nth-child(12)').show();
+        $('#specsToggle').click(function() {
+          $('td:nth-child(n+5),th:nth-child(n+5)').toggle();
+          $('td:nth-child(12),th:nth-child(12)').show();
+        });
+    });
+</script>-->
+</body>
+</html>
+{% endblock %}

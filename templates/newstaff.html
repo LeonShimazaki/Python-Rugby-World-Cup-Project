@@ -1,0 +1,121 @@
+<!-- New staff form -->
+<!DOCTYPE html>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+{% extends "navbar.html" %}
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+	
+<body>
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+</style>
+
+<div class="container mt-3">
+			<!-- error notification -->
+				{% if error %}
+					<div class="alert alert-danger">
+						{{ error }}
+					</div>
+				{% endif %}			
+			<!-- success notification -->
+				{% if success %}
+					<div class="alert alert-success">
+						{{ success }}
+						<table class="container border=1">
+						<tr>
+							<th>Staff ID</th>
+							<th>First Name</th>
+							<th>Last Name</th>
+							<th>Email Address</th>
+							<th>Role</th>
+							<th>Location</th>
+						</tr>
+						{% for ID in showID %}
+						<tr>
+							<td> {{ ID[0] }}</td>
+							<td> {{ ID[1] }}</td>
+							<td> {{ ID[2] }}</td>
+							<td> {{ ID[3] }}</td>
+							<td> {{ ID[4] }}</td>
+							<td> {{ ID[5] }}</td>
+						</tr>
+						{% endfor %}
+						</table>
+					</div>
+				{% endif %}
+		<!-- User form -->
+		<div class="container">
+		  <h2>User register</h2>
+		   <hr>
+			<form  method="post" action="">
+			    <label for="fname">First Name</label>
+				<input type="text" name="staffFName" placeholder="Enter your first name">
+				
+				<label for="lname">Last Name</label>
+				<input type="text" name="staffLName" placeholder="Enter your last name">
+				
+				<label for="email">Email Address</label>
+				<input type="text" name="staffEmail" placeholder="Enter your Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+
+				<label for="role">Role</label>
+					 <select name = "role">
+						<option value = "Manager">Manager</option>
+						<option value = "Field Engineer" selected>Field Engineer</option>
+                        <option value = "Software Tester">Software Tester</option>
+                        <option value = "Analyst">Analyst</option>
+					 </select>
+				
+				<label for="location">Location</label>
+					 <select name = "staffLocation">
+						<option value = "Epic" selected>Epic</option>
+						<option value = "Signal">Signal</option>
+					 </select>
+				<br>
+				<input style ="background-color: #3398FF" type="submit" value="Submit" >
+			</form>
+			<p>
+
+			<a href="http://127.0.0.1:5000/"> Back to Home</a>
+		</div>
+		</h5>		
+</html>
+{% endblock %}
+
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myEmail").pattern;
+  document.getElementById("demo").innerHTML = x;
+}
+

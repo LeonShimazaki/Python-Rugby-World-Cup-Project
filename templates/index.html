@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+{% extends "navbar.html" %}
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+<style>
+p.solid {border-style: solid;}
+th.sortable {
+  position: relative;
+  cursor: pointer;
+  background-color:#87CEFA;
+}
+
+th.sortable::after {
+  font-family: FontAwesome;
+  content: "\f0dc";
+  position: absolute;
+  right: 8px;
+  color: #999;
+}
+
+th.sortable.asc::after {
+  content: "\f0d8";
+}
+
+th.sortable.desc::after {
+  content: "\f0d7";
+}
+
+th.sortable:hover::after {
+  color: #333;
+}
+tr:hover {
+  background-color: #dddddd;
+}
+tr, td {
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+table {
+    table-layout: fixed;
+}
+</style>
+
+<body>
+
+<div class="container mt-4 mb-4">
+  <h2>Epic Devices</h2>
+  <div class="row mb-2">
+    <div class="col-4">
+      <input class="form-control" id="searchInput" type="text" placeholder="Search a device...">
+    </div>
+    <div class="col">
+    <div class="custom-control custom-checkbox mt-2 ml-1">
+      <input id="specsToggle" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="specsToggle">Show Specifications</label>
+    </div>
+    </div>
+    <div class="col">
+    <div class="custom-control custom-checkbox mt-2 ml-1">
+      <input id="unavailableToggle" class="custom-control-input" type="checkbox"><label class="custom-control-label" for="unavailableToggle">Show Available Devices Only</label>
+    </div>
+    </div>
+    <div class="col">
+	<div class="form-group">
+	<form action="" method="POST">
+		<h2 form="FormControlSelect1">Staff Member</h2>
+		    {% if count == 1 %}
+		 <h5>{{ ind }}</h5>
+		 <a type="submit" value="My Device List" name="user" class="btn btn-success btn-lg btn-block" href="/staffmem?SID={{ sta_id }}&T=0">Select</a>
+		 	{% else %}
+		<select name = "ID" class="form-control" id="FormControlSelect1">
+				<option value="0">No Selection</option>
+						{% for sta in staff %}
+				<option name="ID" id="ID" value = "{{ sta[1]}}">{{ sta[0] }}</option>
+						{% endfor %}
+			</select>
+
+                <input type="submit" value="Select" name="user" class="btn btn-success btn-lg btn-block" href="/index?"></input>
+
+	        {% endif %}
+	</form>
+	</div>
+    </div>
+  </div>
+</div>
+
+<div class="device">
+    {% if holdStatus != "" and count == 1 %}
+    <div class = "alert alert-success">{{holdStatus}} {{ holdAvailable|join(', ') }}</div>
+    {% endif %}
+    {% if error %}
+    <div class = "alert alert-danger">{{error}}</div>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="sortable">ID</th>
+                <th class="sortable">Name</th>
+                <th class="sortable">Type</th>
+                <th class="sortable">Device</th>
+                <th class="sortable">OS</th>
+                <th class="sortable">OS Ver</th>
+                <th class="sortable">Ram</th>
+                <th class="sortable">CPU</th>
+                <th class="sortable">Bit</th>
+                <th class="sortable">Res</th>
+                <th class="sortable">Grade</th>
+                <th class="sortable">UUID</th>
+				<th class="sortable">Cost</th>
+				{% if count == 0 %}
+                <th class="sortable">Status</th>
+                {% elif count == 1 %}
+                <th class="sortable">Select</th>
+                {% endif %}
+                <th class="sortable">Location</th>
+            </tr>
+        </thead>
+
+      {% for dev in device %}
+	  <tbody id="devInfo">
+        {% if dev[15]|string == '1980-01-01 00:00:01' %}
+	  <tr class= "group-item alert-danger">
+      {% elif (dev[16] is not none) and (dev[16] != sta_id) %}
+      <tr class= "group-item alert-warning">
+		{% else  %}
+		<tr class= "group-item alert-success">
+		{% endif %}
+            <td> {{dev[0]}} </td>
+            <td> {{dev[1]}} </td>
+            <td> {{dev[2]}} </td>
+		{% if dev[11] == "Tablet" %}
+			<td><i class="material-icons"> tablet_android</i></td>
+		{% elif dev[11] == "Phone" %}
+			<td><i class="material-icons"> phone_iphone</i></td>
+		{% elif dev[11] == "Laptop" %}
+			<td><i class="material-icons"> laptop</i></td>
+		{% elif dev[11] == "VR" %}
+			<td><i class="material-icons"> headset</i></td>
+		{% else %}
+			<td><i class="material-icons"> music_video</i></td>
+		{% endif %}
+            <td> {{dev[3]}} </td>
+             <td> {{dev[4]}} </td>
+             <td> {{dev[5]}} </td>
+             <td> {{dev[6]}} </td>
+             <td> {{dev[7]}} </td>
+             <td> {{dev[8]}} </td>
+             <td> {{dev[9]}} </td>
+             <td> {{dev[10]}} </td>
+			 <td> ${{dev[12]}} </td>
+			 {% if count == 0 %}
+             {% if dev[15]|string == '1980-01-01 00:00:01' %}
+            <td id="unavailable"><a>On Loan to {{ dev[18] }}</a></td>
+            {% elif dev[16] is not none %}
+            <td id="unavailable"><a>On Hold for {{ dev[19] }}</a></td>
+                {% else  %}
+            <td id="available"><a>Available</a></td>
+                {% endif %}
+              {% elif count == 1 %}
+              
+              {% if (dev[15]|string != '1980-01-01 00:00:01') and (dev[16] is none) %}
+             <td><a href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=A">Borrow</td>
+             {% elif (dev[15]|string != '1980-01-01 00:00:01') and ((dev[16] is none) or (sta_id == dev[16])) %}
+             <td><a href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=A">Borrow</td>
+                {% elif (dev[15]|string == '1980-01-01 00:00:01') and (sta_id == dev[14]) %}
+            <td><a  href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=R">Return </td>
+            	{% elif (dev[16] is not none) and (sta_id != dev[16]) %}
+             <td><a  href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=PH">Hold</td>
+             {% elif (dev[15]|string == '1980-01-01 00:00:01') %}
+             <td><a  href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=PH">Hold</td>
+             {% else %}
+             <td><a href="/confirm?DID={{dev[0]}}&SID={{ sta_id }}&ST=A">Borrow </td>
+            	{% endif %}
+				{% endif %}
+            {% if dev[17] != None %}
+            <td>{{dev[17]}}</td>
+            {% else %}
+                <td>Main</td>
+            {% endif %}
+        </tr>
+    </tbody>
+            {% endfor %}
+   </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        console.log('test');
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#devInfo tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        $('td:nth-child(n+5),th:nth-child(n5)').hide();
+        $('td:nth-child(5),th:nth-child(5)').show();
+        $('td:nth-child(14),th:nth-child(14)').show();
+        $('td:nth-child(15),th:nth-child(15)').show();
+        $('#specsToggle').click(function() {
+          $('td:nth-child(n+5),th:nth-child(n+5)').toggle();
+          $('td:nth-child(5),th:nth-child(5)').show();
+          $('td:nth-child(14),th:nth-child(14)').show();
+          $('td:nth-child(15),th:nth-child(15)').show();
+        });
+
+        $('#unavailableToggle').click(function() {
+            $('.table tr').each(function() {
+                var checkAvailable = $(this).find('td:nth-child(14)').html();
+                if (typeof checkAvailable !== 'undefined') {
+                    if ((checkAvailable.includes('On Loan')) || (checkAvailable.includes('On Hold'))) {
+                        $(this).toggle();
+                    }
+                    else if ((checkAvailable.includes('Hold')) || (checkAvailable.includes('Return'))) {
+                        $(this).toggle();
+                    }
+                }
+            });
+        });
+    });
+
+    $('th').click(function(){
+        var table = $(this).parents('table').eq(0)
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer($(this).index()))
+        this.asc = !this.asc
+        if (!this.asc){rows = rows.reverse()}
+        for (var i = 0; i < rows.length; i++){table.append(rows[i])}
+    })
+    function comparer(index) {
+        return function(a, b) {
+            var valA = getCellValue(a, index), valB = getCellValue(b, index)
+            return $.isNumeric(valA) && $.isNumeric(valB) ? valA - valB : valA.toString().localeCompare(valB)
+        }
+    }
+    function getCellValue(row, index){
+        return $(row).children('td').eq(index).text()
+    }
+</script>
+</body>
+</html>
+{% endblock %}

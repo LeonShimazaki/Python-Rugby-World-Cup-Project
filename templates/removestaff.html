@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+{% extends "navbar.html" %}
+
+
+    <title>
+        Assignment
+    </title>
+    {% block content %}
+
+
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+                      
+
+<div class="container mt-3">
+  <h2>Remove Staff</h2>
+  <p>Please select the Staff name to be removed:</p>
+  <hr>
+  <form action="" method="POST">
+  <h3 form="FormControlSelect1">Staff Member</h3>
+    <div class="form-group">
+      <select name = "ID" class="form-control" id="ID">
+        <option value="0">All Selection</option>
+            {% for sta in staff %}
+        <option name="ID" id="ID" value = "{{sta[1]}}">{{ sta[0] }}</option>       
+            {% endfor %}
+      </select> 
+      </div>
+               
+	  			{% if successmsg %}
+					<div class="alert alert-success">
+						{{ successmsg }}
+					</div>
+				{% elif no_id %}		
+
+					<div class="alert alert-danger">
+						{{ no_id }}
+					</div>
+				{% endif%}		
+  
+    <input type="button" onclick="showStaff()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Submit">	
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Please confirm:</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you SURE you want to remove this staff member? 
+            <p></p>
+            <div id="showID"></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary btn-block mt-2" data-dismiss="modal">Close</button>
+            <button class="btn btn-primary btn-block" type="submit">Remove Staff</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>  
+</div>
+<script>
+    var staffList = [];
+    {% for sta in staff %}
+    staffList.push({ id: '{{sta[1]}}', name: '{{sta[0]}}'});
+    {% endfor %}
+    
+    function showStaff() {
+        var staffID = document.getElementById("ID").value;
+        if (!staffID || "0" == staffID){
+            document.getElementById("showID").innerHTML = "Please enter a staff ID.";
+        }
+        else {
+            compareID = staffList.find(sta => sta.id === staffID);
+            document.getElementById("showID").innerHTML = "ID: " + compareID.id + ", Name: " + compareID.name;
+        }
+    }
+</script>
+</body>
+</html>
+{% endblock %}
+
+
